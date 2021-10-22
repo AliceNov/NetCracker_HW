@@ -38,6 +38,7 @@ input:hover {
 .buttons-container {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .button {
   margin: 10px auto;
