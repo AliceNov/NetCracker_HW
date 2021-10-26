@@ -2,7 +2,6 @@ function Node(value){
     this.value = value;
     this.left = null;
     this.right = null;
-
 }
 
 function BinaryTree(){
@@ -18,7 +17,7 @@ BinaryTree.prototype.add = function(value) {
         if(typeof(this.root.value) == typeof(value) && value !== null && value !== ""){
             this.insert(this.root, newNode);
         } else {
-            console.log(`${value} is not a  ${typeof(this.root.value)} or is null, empty value or undefined`);
+            console.log(`${value} is not a ${typeof(this.root.value)} or is null, empty value or undefined`);
         }
     }  
     return this;
@@ -54,7 +53,9 @@ BinaryTree.prototype.PrintTree = function (){
     traverse(rootNode);
     return nodes;
 }
+
 const myTree = new BinaryTree();
+
 myTree.add(8);
 myTree.add('ggg');
 myTree.add(9);
@@ -65,6 +66,6 @@ myTree.add(20);
 myTree.add(6);
 myTree.add(2);
 myTree.add(11);
-myTree.PrintTree();
+
 console.log(myTree);
 console.log(myTree.PrintTree());
