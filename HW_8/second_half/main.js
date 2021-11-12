@@ -38,7 +38,3 @@ pine.initName('pine');
 
 conifer.print();
 pine.print();
-  
-
-
-
