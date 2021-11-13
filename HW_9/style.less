@@ -1,0 +1,108 @@
+//Variables
+@header-background: #96bd5d;
+@epictions-font-color: #404040;
+@milkyColor-background: #ebe9e4;
+@dark-milkyColor: #cecaca;
+
+* {
+    margin: 0;
+}
+body {
+    background: #fefefe;
+}
+input {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    &:hover{
+        box-shadow: 0px 0px 5px rgba(112, 112, 112, 0.4);
+    }
+}
+
+.page_header { 
+    width: 100%;
+    background: @header-background;
+    height: 100px;
+    opacity: 0.75;
+}
+
+.todo-container {
+    margin: 50px auto;
+    padding: 10px;
+    width: 400px;
+    height: 350px;
+    background: @milkyColor-background;
+    color: @epictions-font-color;
+    box-shadow: 0 15px 20px rgba(179, 179, 179, .4);
+}
+
+.todo-container_list {
+    list-style: none;
+    padding-left: 0px;
+    font-size: 28px;
+    & li {
+        margin: 25px 20px;
+    }
+}
+
+
+.buttons-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.buttons-container_button {
+    margin: 10px auto;
+    padding: 20px 30px;
+    width: 140px;
+    height: 30px;
+    font-size: 30px;
+    color: white;
+    text-align: center;
+    border-radius: 15px;
+    background-image: linear-gradient(to right, #d3c60cad 0%, #97b60cde 51%, #6d9c26 100%);
+    transition: 0.5s;
+    &:hover{
+        box-shadow: 0 15px 20px rgba(150, 189, 93, .4);
+        transform: translateY(-7px);
+    }
+}
+
+.header_nav_btn {
+    color: white;
+    background-color: @header-background;
+    border: none;
+    cursor: pointer;
+    padding: 10px 30px;
+    margin-top: 20px;
+    font-size: 30px;
+}
+.header_navigation{
+    position: relative;
+    display: inline-block;
+
+    &:hover .header_nav_div{
+        display: block;
+    }
+}
+
+.header_nav_div {
+    display: none;
+    background-color: @milkyColor-background;
+    min-width: 150px;
+    padding: 0 1px;
+    margin: 25px 10px;
+    & a {
+        cursor: pointer;
+        color: @epictions-font-color;
+        padding: 20px;
+        text-decoration: none;
+        display: block;
+        font-size: 20px;
+        &:hover {
+            background: @dark-milkyColor;
+        }
+    }
+}
+
