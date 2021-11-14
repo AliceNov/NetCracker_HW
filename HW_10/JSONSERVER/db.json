@@ -1,0 +1,19 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "author": "Anna",
+      "title": "Apple"
+    },
+    {
+      "id": "2",
+      "author": "Lisa",
+      "title": "Tree"
+    },
+    {
+      "id": "3",
+      "author": "Sergey",
+      "title": "Dog"
+    }
+  ]
+}
