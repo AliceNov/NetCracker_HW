@@ -24,8 +24,6 @@ getButton.onclick = () => {
         .then(response => drawUsers(response))
 }
 
-
-
 setButton.addEventListener('click', () => {
     let author = document.getElementById('author').value;
     let title = document.getElementById('title').value;
