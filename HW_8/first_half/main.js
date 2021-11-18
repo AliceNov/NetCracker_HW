@@ -4,16 +4,24 @@ function unique_values(){
         return;
     }
 
-    let resalt = [...new Set(this)];
+    let result = [...new Set(this.map(JSON.stringify))].map(JSON.parse);
 
-    return console.log(resalt);
+    return console.log(result);
 }
 
 Array.prototype.unique = unique_values;
 
-let array = [1, 2, 2, 3, 4, 4, 3, 2, 5, 6, 1, 7, 9, 5, 5];
+let array = [1, 2, 2, 3, 4, 4, 3, 2, 5, { name: 'Vasya', type: 'Cat', age: 4},{ name: 'Vasya', type: 'Cat', age: 4}];
 
 let emptyArray = [];
 
 array.unique();
 emptyArray.unique();
+
+
+
+
+
+
+
+
