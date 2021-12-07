@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "eslint": "eslint \"./src/**/*.ts\"",
-    "build": "npm run eslint && rimraf ./dist && gulp --gulpfile  gulpfile.cjs",
+    "build": "npm run eslint && rimraf ./dist",
     "buildAndStart": "npm run build && npm run start",
-    "start": "node dist/index.js"
+    "start": "gulp --gulpfile  gulpfile.cjs"
   },
   "devDependencies": {
     "@types/node": "^16.11.10",
