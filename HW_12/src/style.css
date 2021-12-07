@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+}
+.left {
+  position: absolute;
+  margin-left: 0 px;
+  margin-top: 0 px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(192, 167, 130);
+  border: 1px solid black;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+  margin-right: 50px;
+}
+
+.tree {
+  width: 30px;
+  height: 30px;
+  margin-left: 0px;
+  border-radius: 50%;
+  background-color: rgb(192, 167, 130);
+  border: 1px solid black;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+}
+
+.right {
+ position: absolute;
+  margin-left: 0 px;
+  margin-top: 0 px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(192, 167, 130);
+  border: 1px solid black;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+}
+
+.node {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgb(192, 167, 130);
+  border: 1px solid black;
+  color: black;
+  font-size: 40px;
+  text-align: center;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.button {
+  margin: 10px auto;
+  border: none;
+  width: 150px;
+  height: 50px;
+  background-color: dodgerblue;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.button:hover {
+  background-color: red;
+}
+
+.input__get {
+  width: 100px;
+  height: 100px;
+  font-size: 60px;
+  text-align: center;
+}
+
+.input {
+  margin: 20px auto;
+  width: 100px;
+    
+}
+.input-element {
+  
+  margin: 20px auto;
+}
+
+#BSTVisual {
+  border-top: 5px solid black;
+  padding-top: 30px;
+}
+
