@@ -1,0 +1,231 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.container div {
+    margin: 10px 20px;
+}
+.switch-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.onoffswitch {
+    position: relative;
+     width: 60px;
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    border: 2px solid #999999;
+    border-radius: 20px;
+}
+.onoffswitch-inner {
+    display: block;
+    width: 200%;
+    margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block;
+    float: left;
+    width: 50%;
+    height: 20px;
+    padding: 0;
+    line-height: 22px;
+    font-size: 10px;
+    color: white;
+    font-family: Trebuchet, Arial, sans-serif;
+    font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "ВКЛ";
+    padding-left: 5px;
+    background-color: #34A7C1; color: #FFFFFF;
+}
+.onoffswitch-inner:after {
+    content: "ВЫКЛ";
+    padding-right: 2px;
+    background-color: #EEEEEE; color: #999999;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block;
+    width: 10px;
+    margin: 6px;
+    background: #FFFFFF;
+    position: absolute;
+    top: 0;
+    bottom: 25px;
+    right: 35px;
+    border: 2px solid #999999; border-radius: 20px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
+}
+
+.highlight {
+    background: rgba(255, 0, 0, 0.336);
+}
+.highSearch {
+    background: rgba(238, 207, 70, 0.801);
+}
+a{
+    cursor: pointer;
+}
+
+.popup {
+    width: 80%;
+    padding: 15px;
+    left: 0;
+    margin-left: 5%;
+    border: 1px solid rgba(54, 54, 54, 0.795);
+    border-radius: 10px;
+    color: rgba(58, 56, 56, 0.74);
+    background: white;
+    position: absolute;
+    top: 15%;
+    z-index: 10001;
+    font-weight: 700;
+    text-align: center;
+  }
+  
+  #dialog-container {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(68, 67, 67, 0.048);
+    z-index: 10000;
+    
+  }
+
+  .hid{
+    display :none;
+  }
+  
+  @media (min-width: 768px) {
+    .popup {
+      width: 66.66666666%;
+      margin-left: 16.666666%;
+    }
+  }
+  @media (min-width: 992px) {
+    .popup {
+      width: 80%;
+      margin-left: 25%;
+    }
+  }
+  @media (min-width: 1200px) {
+    .popup {
+      width: 33.33333%;
+      margin-left: 33.33333%;
+    }
+  }
+  
+  .dialog-btn {
+    background-color:#5ea9c7e0;
+    color: white;
+    font-weight: 700;
+    border: 1px solid #5ea9c7e0;
+    border-radius: 10px;
+    height: 30px;
+    width: 30%;
+  }
+  .dialog-btn:hover {
+    background-color:#5594ade0;
+    cursor: pointer;
+  }
+
+  table {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+    background: white;
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    margin: 0 auto 20px;
+ }
+
+ td {
+    transition: .3s linear;
+ }
+ 
+ th {
+    font-size: 14px;
+    font-weight: normal;
+    color: rgb(25, 25, 26);
+    border-bottom: 2px solid #6678b1;
+    padding: 10px 8px;
+ }
+ 
+ td {
+    color: rgb(61, 61, 61);
+    padding: 9px 8px;
+ }
+
+ img{
+     width: 15px;
+     height: 15px;
+ }
+
+ .deleteBut{
+    background-color:#5594ade0;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    border: 1px solid #5ea9c7e0;
+    border-radius: 10px;
+    height: 25px;
+    width: 70px;
+    margin-top: 5px;
+ }
+
+ .text-field__input {
+    padding: 12px;
+    border-radius: 3px;
+    width: 250px;
+    height: 25px;
+    font-size: 14px;
+ }
+ .findButton{
+    background-color:#5594ade0;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    border: 1px solid #5ea9c7e0;
+    border-radius: 5px;
+    height: 25px;
+    width: 70px;
+    margin: 5px;
+ }
+
+ .cleanInputB{
+    background-color:#5594ade0;
+    cursor: pointer;
+    color: white;
+    font-weight: 700;
+    border: 1px solid #5ea9c7e0;
+    border-radius: 5px;
+    height: 25px;
+    width: 125px;
+    margin: 5px;
+ }
+
+ .filterScore-container input, .filterDate-container input{
+    margin: 5px;
+ }

@@ -1,0 +1,76 @@
+<div class="container">
+  
+  
+  <div class="table-container">
+
+  
+    <div class="text-field">
+      <input #searchInput type="search" class="text-field__input">
+      <button (click)= "findStudent(searchInput.value)" class="findButton">Поиск</button>
+      <button (click)= "clean()" class="cleanInputB">Очистить поиск</button>
+    </div>
+    <div>
+      <thead>
+        <tr>
+          <th><a (click)="sortBy('last')"><img src="../assets/sort.png"></a>Фамилия</th>
+          <th><a (click)="sortBy('first')"><img src="../assets/sort.png"></a>Имя</th>
+          <th><a (click)="sortBy('middle')"><img src="../assets/sort.png"></a>Отчество</th>
+          <th><a (click)="sortBy('date')"><img src="../assets/sort.png"></a>Дата рождения</th>
+          <th><a (click)="sortBy('score')"><img src="../assets/sort.png"></a>Средний балл</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+        <tr *ngFor = "let student of studentList |
+                      dateFilter:fromDate:toDate |
+                      scoreFilter:fromNum:toNum |
+                      sortBy:sort; let i = index" [ngClass] = "{'highlight' : (student.averageScore < 3) && turnOn,
+                                                                'highSearch':highlightSearch(student.firstName, student.lastName) && search}">
+          <td>{{student.lastName}}</td>
+          <td>{{student.firstName}}</td>
+          <td>{{student.middleName}}</td>
+          <td>{{formatDate(student.birthDate) | date:"dd-MM-yyyy"}}</td>
+          <td>{{student.averageScore}}</td>
+          <button class="deleteBut" (click)="deleteButton(i)">Удалить</button>
+    
+          <div  id="dialog-container" [ngClass] = "{hid: hidd}">
+            <div class="popup">
+              <p>Вы действительно хотите удалить ?</p>
+              <div class="text-right">
+                <button class="dialog-btn btn-cancel" id="cancel" (click)="confirmDialog(false)">Нет</button>
+                <button class="dialog-btn btn-primary" id="confirm" (click)="confirmDialog(true)">Да</button>
+              </div>
+          </div>
+          </div>
+        </tr>
+      </tbody>
+    </div>
+  </div>
+
+  <div class="filter-container">
+    <div class="switch-container">
+      <div><p>Показать всех у кого балл < 3</p></div>
+      <div class="onoffswitch">
+        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" (change)="toggleChecked($event)">
+        <label class="onoffswitch-label" for="myonoffswitch">
+            <span class="onoffswitch-inner"></span>
+            <span class="onoffswitch-switch"></span>
+        </label>
+      </div>
+    </div>
+    <div class="filterDate-container">
+      <label>Фильтр по дате </label>
+      <input #dateFrom type="date" class="form-control" [(ngModel)]="fromDate">
+      <input #dateTo type="date" class="form-control" [(ngModel)]="toDate">
+    </div>
+    <div class="filterScore-container">
+      <label>Фильтр по баллу </label>
+      <input type="number" [(ngModel)] = "fromNum">
+      <input type="number"[(ngModel)] = "toNum">
+    </div>
+  </div>
+ 
+</div>
+
+
+
