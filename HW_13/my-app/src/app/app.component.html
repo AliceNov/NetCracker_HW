@@ -8,10 +8,12 @@
       <input #searchInput type="search" class="text-field__input">
       <button (click)= "findStudent(searchInput.value)" class="findButton">Поиск</button>
       <button (click)= "clean()" class="cleanInputB">Очистить поиск</button>
+      <a class="filterButton" (click)="showFilter()"><img src="../assets/filter.png"></a>
+      <button (click)= "cleanFilter()" class="cleanInputB">Снять фильтры</button>
     </div>
     <div>
       <thead>
-        <tr>
+        <tr class="theader">
           <th><a (click)="sortBy('last')"><img src="../assets/sort.png"></a>Фамилия</th>
           <th><a (click)="sortBy('first')"><img src="../assets/sort.png"></a>Имя</th>
           <th><a (click)="sortBy('middle')"><img src="../assets/sort.png"></a>Отчество</th>
@@ -21,10 +23,7 @@
       </thead>
       
       <tbody>
-        <tr *ngFor = "let student of studentList |
-                      dateFilter:fromDate:toDate |
-                      scoreFilter:fromNum:toNum |
-                      sortBy:sort; let i = index" [ngClass] = "{'highlight' : (student.averageScore < 3) && turnOn,
+        <tr *ngFor = "let student of studentList ; let i = index" [ngClass] = "{'highlight' : compare(student.averageScore) && turnOn,
                                                                 'highSearch':highlightSearch(student.firstName, student.lastName) && search}">
           <td>{{student.lastName}}</td>
           <td>{{student.firstName}}</td>
@@ -47,26 +46,34 @@
     </div>
   </div>
 
-  <div class="filter-container">
-    <div class="switch-container">
-      <div><p>Показать всех у кого балл < 3</p></div>
-      <div class="onoffswitch">
-        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" (change)="toggleChecked($event)">
-        <label class="onoffswitch-label" for="myonoffswitch">
-            <span class="onoffswitch-inner"></span>
-            <span class="onoffswitch-switch"></span>
-        </label>
+  
+
+  <div class="filter-container" [ngClass] = "{hidFilt: filterHidden}">
+    <div class="filter-container-popup">
+      <div class="filter-container">
+        <div class="switch-container">
+          <div class="onoffswitch">
+            <input type="checkbox" id="myonoffswitch" tabindex="0" (change)="toggleChecked($event)">
+           <label>Показать всех у кого балл < 3</label> 
+          </div>
+        </div>
+        <div class="filterDate-container">
+          <label>Фильтр по дате </label>
+          <input #dateFrom type="date" class="form-control" [(ngModel)]="fromDate">
+          -
+          <input #dateTo type="date" class="form-control" [(ngModel)]="toDate">
+        </div>
+        <div class="filterScore-container">
+          <label>Фильтр по баллу </label>
+          <input type="number" [(ngModel)] = "fromNum">
+          - 
+          <input type="number"[(ngModel)] = "toNum">
+        </div>
       </div>
-    </div>
-    <div class="filterDate-container">
-      <label>Фильтр по дате </label>
-      <input #dateFrom type="date" class="form-control" [(ngModel)]="fromDate">
-      <input #dateTo type="date" class="form-control" [(ngModel)]="toDate">
-    </div>
-    <div class="filterScore-container">
-      <label>Фильтр по баллу </label>
-      <input type="number" [(ngModel)] = "fromNum">
-      <input type="number"[(ngModel)] = "toNum">
+      <div class="text-right">
+        <button class="dialog-btn btn-cancel" id="cancel" (click)="confirmFilter(false)">Закрыть</button>
+        <button class="dialog-btn btn-primary" id="confirm" (click)="confirmFilter(true)">Применить фильтр</button>
+      </div>
     </div>
   </div>
  

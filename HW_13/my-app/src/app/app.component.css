@@ -1,79 +1,29 @@
-.container{
-    display: flex;
+.container {
+  display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
-.container div {
-    margin: 10px 20px;
+.table-container {
+  margin: 0 auto;
 }
 .switch-container{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
-.onoffswitch {
-    position: relative;
-     width: 60px;
+.switch-container div{
+  margin: 5px auto;
+  display: flex;
+  align-items: center;
 }
-.onoffswitch-checkbox {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
+.switch-container label{
+  margin: 5px;
+  font-size: 17px;
 }
-.onoffswitch-label {
-    display: block;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid #999999;
-    border-radius: 20px;
-}
-.onoffswitch-inner {
-    display: block;
-    width: 200%;
-    margin-left: -100%;
-    transition: margin 0.3s ease-in 0s;
-}
-.onoffswitch-inner:before, .onoffswitch-inner:after {
-    display: block;
-    float: left;
-    width: 50%;
-    height: 20px;
-    padding: 0;
-    line-height: 22px;
-    font-size: 10px;
-    color: white;
-    font-family: Trebuchet, Arial, sans-serif;
-    font-weight: bold;
-    box-sizing: border-box;
-}
-.onoffswitch-inner:before {
-    content: "ВКЛ";
-    padding-left: 5px;
-    background-color: #34A7C1; color: #FFFFFF;
-}
-.onoffswitch-inner:after {
-    content: "ВЫКЛ";
-    padding-right: 2px;
-    background-color: #EEEEEE; color: #999999;
-    text-align: right;
-}
-.onoffswitch-switch {
-    display: block;
-    width: 10px;
-    margin: 6px;
-    background: #FFFFFF;
-    position: absolute;
-    top: 0;
-    bottom: 25px;
-    right: 35px;
-    border: 2px solid #999999; border-radius: 20px;
-    transition: all 0.3s ease-in 0s; 
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
-    margin-left: 0;
-}
-.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
-    right: 0px; 
+#myonoffswitch {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
 }
 
 .highlight {
@@ -178,7 +128,7 @@ a{
     padding: 9px 8px;
  }
 
- img{
+.theader img{
      width: 15px;
      height: 15px;
  }
@@ -201,6 +151,7 @@ a{
     width: 250px;
     height: 25px;
     font-size: 14px;
+    margin: 5px;
  }
  .findButton{
     background-color:#5594ade0;
@@ -225,7 +176,76 @@ a{
     width: 125px;
     margin: 5px;
  }
-
+ .filterScore-container, .filterDate-container {
+   margin: 10px;
+ }
  .filterScore-container input, .filterDate-container input{
     margin: 5px;
  }
+ .text-field img {
+  height: 25px;
+  
+ }
+ .filterButton {
+   width: 30px;
+   height: 30px;
+   
+  cursor: pointer;
+  margin: 5px;
+ }
+
+ .text-field {
+  display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+ }
+ 
+ .filter-container-popup{
+  width: 80%;
+  height: 200px;
+  padding: 15px;
+  left: 0;
+  margin-left: 5%;
+  border: 1px solid rgba(54, 54, 54, 0.795);
+  border-radius: 10px;
+  color: rgba(58, 56, 56, 0.74);
+  background: white;
+  position: absolute;
+  top: 15%;
+  z-index: 10001;
+  font-weight: 700;
+  text-align: center;
+ }
+
+ @media (min-width: 768px) {
+  .filter-container-popup {
+    width: 66.66666666%;
+    margin-left: 16.666666%;
+  }
+}
+@media (min-width: 992px) {
+  .filter-container-popup {
+    width: 80%;
+    margin-left: 25%;
+  }
+}
+@media (min-width: 1200px) {
+  .filter-container-popup {
+    width: 33.33333%;
+    margin-left: 33.33333%;
+  }
+}
+
+.filter-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.filter-container button {
+  margin: 10px;
+}
+
+.hidFilt{
+  display :none;
+}
