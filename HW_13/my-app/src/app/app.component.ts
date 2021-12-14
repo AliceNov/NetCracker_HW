@@ -24,7 +24,7 @@ export class AppComponent {
   hidd: boolean = true;
   confirm: boolean = true;
   indexDelete: number = 0;
-  filS:[]=[];
+  filS: [] = [];
   filterHidden: boolean = true;
 
 
@@ -117,7 +117,7 @@ export class AppComponent {
   }
 
   filterByScore(): void {
-    if(!this.fromNum || !this.toNum){
+    if (!this.fromNum || !this.toNum){
       this.studentList = STUDENTS;
       return;
     }
@@ -189,17 +189,17 @@ export class AppComponent {
     }
   }
 
-  showFilter(){
+  showFilter(): void {
     this.filterHidden = false;
   }
 
-  confirmFilter(flag: boolean){
+  confirmFilter(flag: boolean): void{
     if (flag) {
       this.studentList = STUDENTS;
       if (this.fromDate && this.toDate){
         this.filterByDate();
       }
-      if(this.fromNum && this.toNum) {
+      if (this.fromNum && this.toNum) {
         this.filterByScore();
       }
       this.filterHidden = true;
@@ -209,7 +209,7 @@ export class AppComponent {
     }
   }
 
-  cleanFilter(){
+  cleanFilter(): void{
     this.studentList = STUDENTS;
     this.fromDate = "";
     this.toDate = "";
