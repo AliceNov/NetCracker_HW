@@ -1,5 +1,8 @@
 import { Component } from "@angular/core";
+import { FormBuilder, Validators } from "@angular/forms";
 import { STUDENTS } from "./students";
+import { validateDOB } from "./validatorDOB.validator";
+import { validateFIO } from "./validatorFIO.validator";
 
 @Component({
   selector: "app-root",
@@ -7,11 +10,7 @@ import { STUDENTS } from "./students";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
- // public studentList: { lastName: string, firstName: string, middleName: string, birthDate: string, averageScore: number }[] = students;
- public studentList = STUDENTS;
-  formatDate(data: string): Date{
-    return new Date(data);
-  }
+  public studentList = STUDENTS;
 
   turnOn: boolean = false;
   nameSearch: string = "";
@@ -26,7 +25,26 @@ export class AppComponent {
   indexDelete: number = 0;
   filS: [] = [];
   filterHidden: boolean = true;
+  nameButton: string = "сохранить";
+  hiddenFormFlag: boolean = true;
+  submitFlag: boolean = false;
+  formAddEdit: any;
 
+  constructor(private fb: FormBuilder){
+    this.formAddEdit = this.fb.group({
+      birthDate: ["", [Validators.required, validateDOB]],
+      averageScore: ["", Validators.required],
+      fio: this.fb.group({
+        lastName: ["", Validators.required],
+        firstName: ["", Validators.required],
+        middleName: ["", Validators.required]
+    }, { validator: [validateFIO] })
+    });
+  }
+
+  formatDate(data: string): Date{
+    return new Date(data);
+  }
 
   toggleChecked(event: any): void {
     if (event.target.checked){
@@ -216,5 +234,62 @@ export class AppComponent {
     this.fromNum = "";
     this.toNum = "";
     this.turnOn = false;
+  }
+
+  indexNumber: number = 0;
+  editButton(index: number): void {
+    this.nameButton = "Сохранить";
+    this.hiddenFormFlag = false;
+    this.formAddEdit.get("fio")?.get("lastName")?.setValue(this.studentList[index].lastName);
+    this.formAddEdit.get("fio")?.get("firstName")?.setValue(this.studentList[index].firstName);
+    this.formAddEdit.get("fio")?.get("middleName")?.setValue(this.studentList[index].middleName);
+    this.formAddEdit.controls["birthDate"].setValue(this.studentList[index].birthDate);
+    this.formAddEdit.controls["averageScore"].setValue(this.studentList[index].averageScore);
+    this.indexNumber = index;
+  }
+
+  saveEdit(): void{
+    this.studentList[this.indexNumber].lastName = this.formAddEdit.get("fio")?.get("lastName")?.value;
+    this.studentList[this.indexNumber].firstName = this.formAddEdit.get("fio")?.get("firstName")?.value;
+    this.studentList[this.indexNumber].middleName = this.formAddEdit.get("fio")?.get("middleName")?.value;
+    this.studentList[this.indexNumber].birthDate = this.formAddEdit.controls["birthDate"].value;
+    this.studentList[this.indexNumber].averageScore = this.formAddEdit.controls["averageScore"].value;
+    this.formAddEdit.reset();
+    this.hiddenFormFlag = true;
+  }
+
+  addButton(): void{
+    this.nameButton = "Добавить";
+    this.hiddenFormFlag = false;
+  }
+
+  addRow(): void{
+    this.studentList.push({
+        lastName:this.formAddEdit.get("fio")?.get("lastName")?.value,
+        firstName: this.formAddEdit.get("fio")?.get("firstName")?.value,
+        middleName:this.formAddEdit.get("fio")?.get("middleName")?.value,
+        birthDate: String(this.formAddEdit.controls["birthDate"].value),
+        averageScore: String(this.formAddEdit.controls["averageScore"].value)
+
+    });
+    this.formAddEdit.reset();
+    this.hiddenFormFlag = true;
+  }
+
+  closeButton(): void{
+    this.submitFlag = false;
+    this.formAddEdit.reset();
+    this.hiddenFormFlag = true;
+  }
+
+  submitButton(): void{
+    this.submitFlag = true;
+  }
+  _onSubmit(): void{
+    if (this.nameButton === "Сохранить" && this.submitFlag) {
+      this.saveEdit();
+    } else if (this.nameButton === "Добавить" && this.submitFlag) {
+      this.addRow();
+    }
   }
 }

@@ -1,15 +1,12 @@
 <div class="container">
-  
-  
-  <div class="table-container">
-
-  
+  <div class="table-container">  
     <div class="text-field">
       <input #searchInput type="search" class="text-field__input">
       <button (click)= "findStudent(searchInput.value)" class="findButton">Поиск</button>
       <button (click)= "clean()" class="cleanInputB">Очистить поиск</button>
       <a class="filterButton" (click)="showFilter()"><img src="../assets/filter.png"></a>
       <button (click)= "cleanFilter()" class="cleanInputB">Снять фильтры</button>
+      <a class="filterButton" (click)="addButton()"><img src="../assets/add.png"></a>
     </div>
     <div>
       <thead>
@@ -19,6 +16,8 @@
           <th><a (click)="sortBy('middle')"><img src="../assets/sort.png"></a>Отчество</th>
           <th><a (click)="sortBy('date')"><img src="../assets/sort.png"></a>Дата рождения</th>
           <th><a (click)="sortBy('score')"><img src="../assets/sort.png"></a>Средний балл</th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
       
@@ -28,9 +27,11 @@
           <td>{{student.lastName}}</td>
           <td>{{student.firstName}}</td>
           <td>{{student.middleName}}</td>
-          <td>{{formatDate(student.birthDate) | date:"dd-MM-yyyy"}}</td>
+          <td>{{student.birthDate}}</td>
           <td>{{student.averageScore}}</td>
-          <button class="deleteBut" (click)="deleteButton(i)">Удалить</button>
+          <td><div id="editButton" (click)="editButton(i)"><img src="../assets/edit.png"></div></td>
+          <td><button class="deleteBut" (click)="deleteButton(i)">Удалить</button></td>
+          
     
           <div  id="dialog-container" [ngClass] = "{hid: hidd}">
             <div class="popup">
@@ -67,7 +68,7 @@
           <label>Фильтр по баллу </label>
           <input type="number" [(ngModel)] = "fromNum">
           - 
-          <input type="number"[(ngModel)] = "toNum">
+          <input type="number" [(ngModel)] = "toNum">
         </div>
       </div>
       <div class="text-right">
@@ -77,6 +78,40 @@
     </div>
   </div>
  
+
+  <div class="form-container" [ngClass]="{hiddenForm: hiddenFormFlag}">
+    <div class="form-container-popup">
+      <form [formGroup]="formAddEdit" (ngSubmit)="_onSubmit()">
+        <div class="form-container-div">
+          <div formGroupName="fio" >
+            <div id="lastName">
+              <label>Фамилия</label>
+              <input  name="lastName" formControlName="lastName"  />
+            </div>
+            <div id="firstName">
+              <label>Имя</label>
+              <input  formControlName="firstName" />
+            </div>
+            <div id="middleName">
+              <label>Отчество</label>
+              <input  formControlName="middleName" />
+            </div>
+          </div>
+          <div>
+            <label>Дата рождения</label>
+            <input type="date" formControlName="birthDate" />
+          </div>
+          <div>
+            <label>Средний балл</label>
+            <input type="number" formControlName="averageScore" />
+          </div>
+          <button class="form-button" (click)="closeButton()">Закрыть</button>
+          <button class="form-button" type="submit" [disabled]="!formAddEdit.valid" (click)="submitButton()">{{nameButton}}</button>
+        </div>
+        
+      </form>
+    </div> 
+  </div>
 </div>
 
 
