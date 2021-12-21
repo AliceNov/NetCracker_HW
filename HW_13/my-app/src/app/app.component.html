@@ -42,12 +42,14 @@
               </div>
           </div>
           </div>
+          
         </tr>
       </tbody>
     </div>
   </div>
 
   
+ 
 
   <div class="filter-container" [ngClass] = "{hidFilt: filterHidden}">
     <div class="filter-container-popup">
@@ -78,40 +80,18 @@
     </div>
   </div>
  
+ 
+  <app-form 
+    [list]="studentList"
+    [buttonName]="nameButton" 
+    [index]="indexNumber" 
+    [indexF]="indexFlag"
+    (hiddenChange)="closeButton($event)"
+    (listChange)="listChange($event)"
+    [ngClass] = "{hiddenForm: hiddenFormFlag}">
+  </app-form>
 
-  <div class="form-container" [ngClass]="{hiddenForm: hiddenFormFlag}">
-    <div class="form-container-popup">
-      <form [formGroup]="formAddEdit" (ngSubmit)="_onSubmit()">
-        <div class="form-container-div">
-          <div formGroupName="fio" >
-            <div id="lastName">
-              <label>Фамилия</label>
-              <input  name="lastName" formControlName="lastName"  />
-            </div>
-            <div id="firstName">
-              <label>Имя</label>
-              <input  formControlName="firstName" />
-            </div>
-            <div id="middleName">
-              <label>Отчество</label>
-              <input  formControlName="middleName" />
-            </div>
-          </div>
-          <div>
-            <label>Дата рождения</label>
-            <input type="date" formControlName="birthDate" />
-          </div>
-          <div>
-            <label>Средний балл</label>
-            <input type="number" formControlName="averageScore" />
-          </div>
-          <button class="form-button" (click)="closeButton()">Закрыть</button>
-          <button class="form-button" type="submit" [disabled]="!formAddEdit.valid" (click)="submitButton()">{{nameButton}}</button>
-        </div>
-        
-      </form>
-    </div> 
-  </div>
+  
 </div>
 
 

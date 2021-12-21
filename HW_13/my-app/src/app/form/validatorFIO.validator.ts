@@ -5,9 +5,15 @@ export function validateFIO (controls: AbstractControl): { [key: string]: boolea
     const first = controls.get("firstName");
     const middle = controls.get("middleName");
 
-    if (last?.value === first?.value || first?.value === middle?.value) {
+    if (last?.value === first?.value && first?.value !== "") {
         return {
-            matched: true
+            matchedLast: true
+        };
+    }
+
+    if (first?.value === middle?.value && first?.value !== "") {
+        return {
+            matchedMiddle: true
         };
     }
 

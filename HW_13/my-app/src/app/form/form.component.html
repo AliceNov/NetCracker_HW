@@ -1,0 +1,45 @@
+<div class="form-container" >
+    <div class="form-container-popup">
+      <form [formGroup]="formAddEdit" (ngSubmit)="_onSubmit()">
+        <div class="form-container-div">
+          <div formGroupName="fio" >
+            <div id="lastName">
+              <label>Фамилия</label>
+              <input  name="lastName" formControlName="lastName"  />
+            </div>
+            <div id="firstName">
+              <label>Имя</label>
+              <input  formControlName="firstName" />
+              <small *ngIf="formAddEdit.get('fio')?.hasError('matchedLast') && formAddEdit.get('fio')?.get('firstName')?.dirty"
+              [ngClass]="{'hidden': formAddEdit.get('fio')?.get('firstName')?.untouched || formAddEdit.get('fio')?.valid}">
+                Имя совпадает с фамилией
+              </small>
+              <small *ngIf="formAddEdit.get('fio')?.hasError('matchedMiddle') && formAddEdit.get('fio')?.get('firstName')?.dirty"
+              [ngClass]="{'hidden': formAddEdit.get('fio')?.get('firstName')?.untouched || formAddEdit.get('fio')?.valid}">
+                Имя совпадает с отчеством
+              </small>
+            </div>
+            <div id="middleName">
+              <label>Отчество</label>
+              <input  formControlName="middleName" />
+            </div>
+          </div>
+          <div>
+            <label>Дата рождения</label>
+            <input type="date" formControlName="birthDate" />
+            <small *ngIf="formAddEdit.get('birthDate')?.hasError('birthDate') && formAddEdit.get('birthDate')?.dirty"
+            [ngClass]="{'hidden': formAddEdit.get('birthDate')?.get('firstName')?.untouched || formAddEdit.get('birthDate')?.valid}">
+              Дата не должна быть больше {{tenYearsCurrentDate | date: 'dd/mm/yy'}}
+            </small>
+          </div>
+          <div>
+            <label>Средний балл</label>
+            <input type="number" formControlName="averageScore" />
+          </div>
+          <button class="form-button" (click)="closeButton()">Закрыть</button>
+          <button class="form-button" type="submit" [disabled]="!formAddEdit.valid" (click)="submitButton()">{{buttonName}}</button>
+        </div>
+        
+      </form>
+    </div> 
+  </div>
