@@ -27,6 +27,8 @@
   .form-container input {
     width: 60%;
     height: 25px;
+    position: relative;
+  display: inline-block;
   }
   
   .form-container-popup {
@@ -69,6 +71,9 @@
   .form-container-div div {
     margin: 20px 0;
   }
+  .disButton {
+    background-color: grey;
+  }
   .form-button{
     background-color:#5ea9c7e0;
     color: white;
@@ -82,22 +87,61 @@
     background-color:#5594ade0;
     cursor: pointer;
   }
+ 
+  .button-valid {
+    background-color: grey;
+    color: white;
+    font-weight: 700;
+    border: 1px solid grey;
+    border-radius: 10px;
+    height: 40px;
+    width: 40%;
+  }
+  .batton-invalid {
+    background-color:#5ea9c7e0;;
+    color: white;
+    font-weight: 700;
+    border: 1px solid #5ea9c7e0;
+    border-radius: 10px;
+    height: 40px;
+    width: 40%;
+  }
+
   .form-container-popup input.ng-invalid:not(form)  {
     border-left: 5px solid #a94442; /* red */
   }
-  .form-container-popup .ng-valid[required], .ng-valid.required  {
+  .form-container-popup input.ng-valid[required], input.ng-valid.required  {
     border-left: 5px solid #42A948; /* green */
   }
 
-  small {
-    display: flex;
-    flex-direction: column;
-    color: rgba(168, 20, 9, 0.747);
+  .tooltip {
+    position: absolute;
+    width: 50%;
     font-weight: lighter;
-    text-align: left;
-    margin: 0 20%;
+    height: auto;
+    line-height: 25px;
+    font-size: 14px;
+    font-family: sans-serif;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+    padding: 0px 10px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s 0s;
   }
 
+  .div-input:hover > .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+.tool-error {
+  border-left: 5px solid #a94442;
+}
+ .tooltip-hid {
+  display: none;
+}
   .hidden {
     display: none;
   }

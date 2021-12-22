@@ -30,9 +30,15 @@ export class FormComponent implements OnChanges{
   });
 
   currentDate: Date = new Date();
-  tenYearsCurrentDate = new Date(this.currentDate.getTime() - (1000 * 60 * 60 * 24 * 365 * 10));
+  bate: Date = new Date();
+  
 
-  constructor(private fb: FormBuilder){}
+  constructor(private fb: FormBuilder){
+   let currentDate: Date = new Date();
+  let bate: Date = new Date();
+    this.currentDate.setFullYear(this.currentDate.getFullYear() - 10);
+    this.currentDate.setMonth(this.bate.getMonth()+1);
+  }
 
   ngOnChanges(changes: SimpleChanges): void{
     if (changes != null){
@@ -40,7 +46,9 @@ export class FormComponent implements OnChanges{
     }
     if (this.indexF){
       this.edition();
+      this.indexF = false;
     }
+    
   }
 
   edition(): void {
@@ -87,7 +95,9 @@ export class FormComponent implements OnChanges{
     }
   }
   closeButton(): void {
-    this.formAddEdit.reset();
     this.hiddenChange.emit(this.flag);
+    this.formAddEdit.reset();
   }
+
+
 }
