@@ -29,7 +29,7 @@
             <input  type="date" formControlName="birthDate"   />
             <span  [ngClass]="{'tooltip': formAddEdit.get('birthDate')?.hasError('birthDate') && formAddEdit.get('birthDate')?.dirty, 
                                'tooltip-hid': !formAddEdit.get('birthDate')?.hasError('birthDate')}" >
-              Дата не должна быть больше {{currentDate | date: 'dd/mm/yy'}}
+              Дата не должна быть больше {{currDate | date: 'dd/MM/yy'}}
             </span>
           </div>
           <div>

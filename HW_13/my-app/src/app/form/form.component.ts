@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter } from "@angular/core";
+import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, OnInit } from "@angular/core";
 import { Student } from "../students";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { validateDOB } from "./validatorDOB.validator";
@@ -9,7 +9,7 @@ import { validateFIO } from "./validatorFIO.validator";
     templateUrl: "./form.component.html",
     styleUrls: ["./form.component.css"]
   })
-export class FormComponent implements OnChanges{
+export class FormComponent implements OnChanges, OnInit{
   @Input() list!: Student[];
   @Input() buttonName!: string;
   @Input() index: number = 0;
@@ -29,15 +29,18 @@ export class FormComponent implements OnChanges{
   }, { validator: [validateFIO] })
   });
 
-  currentDate: Date = new Date();
-  bate: Date = new Date();
-  
+
+  currDate?: Date;
 
   constructor(private fb: FormBuilder){
-   let currentDate: Date = new Date();
-  let bate: Date = new Date();
-    this.currentDate.setFullYear(this.currentDate.getFullYear() - 10);
-    this.currentDate.setMonth(this.bate.getMonth()+1);
+
+  }
+
+  ngOnInit (): void{
+    this.currDate = new Date();
+    const  currentDate: Date = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 10);
+    this.currDate = currentDate;
   }
 
   ngOnChanges(changes: SimpleChanges): void{
@@ -48,8 +51,11 @@ export class FormComponent implements OnChanges{
       this.edition();
       this.indexF = false;
     }
-    
+
   }
+
+
+
 
   edition(): void {
     this.formAddEdit.get("fio")?.get("lastName")?.setValue(this.list[this.index].lastName);
