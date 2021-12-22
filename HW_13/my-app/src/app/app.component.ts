@@ -230,6 +230,7 @@ export class AppComponent {
   addButton(): void{
     this.nameButton = "Добавить";
     this.hiddenFormFlag = false;
+    this.indexFlag = false;
   }
 
   closeButton(flag: boolean): void{

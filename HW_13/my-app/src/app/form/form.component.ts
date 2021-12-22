@@ -13,7 +13,7 @@ export class FormComponent implements OnChanges, OnInit{
   @Input() list!: Student[];
   @Input() buttonName!: string;
   @Input() index: number = 0;
-  @Input() indexF!: boolean;
+  @Input() indexF: boolean = false;
   @Output() hiddenChange = new EventEmitter<boolean>();
   @Output() listChange = new EventEmitter<Student[]>();
   flag: boolean = true;
@@ -49,7 +49,6 @@ export class FormComponent implements OnChanges, OnInit{
     }
     if (this.indexF){
       this.edition();
-      this.indexF = false;
     }
 
   }
@@ -62,7 +61,7 @@ export class FormComponent implements OnChanges, OnInit{
     this.formAddEdit.get("fio")?.get("firstName")?.setValue(this.list[this.index].firstName);
     this.formAddEdit.get("fio")?.get("middleName")?.setValue(this.list[this.index].middleName);
     this.formAddEdit.controls["birthDate"].setValue(this.list[this.index].birthDate);
-    this.formAddEdit.controls["averageScore"].setValue(this.list[this.index].averageScore);
+    this.formAddEdit.controls["averageScore"].setValue(this.list[this.index].averageScore); 
   }
   saveEdit(): void {
     this.list[this.index].lastName = this.formAddEdit.get("fio")?.get("lastName")?.value;
