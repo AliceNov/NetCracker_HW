@@ -1,7 +1,7 @@
 <div class="container">
   <div class="table-container">  
     <div class="text-field">
-      <input #searchInput type="search" class="text-field__input">
+      <input #searchInput [(ngModel)] = "inS" type="search" class="text-field__input" >
       <button (click)= "findStudent(searchInput.value)" class="findButton">Поиск</button>
       <button (click)= "clean()" class="cleanInputB">Очистить поиск</button>
       <a class="filterButton" (click)="showFilter()"><img src="../assets/filter.png"></a>
@@ -11,22 +11,22 @@
     <div>
       <thead>
         <tr class="theader">
-          <th><a (click)="sortBy('last')"><img src="../assets/sort.png"></a>Фамилия</th>
-          <th><a (click)="sortBy('first')"><img src="../assets/sort.png"></a>Имя</th>
-          <th><a (click)="sortBy('middle')"><img src="../assets/sort.png"></a>Отчество</th>
-          <th><a (click)="sortBy('date')"><img src="../assets/sort.png"></a>Дата рождения</th>
-          <th><a (click)="sortBy('score')"><img src="../assets/sort.png"></a>Средний балл</th>
+          <th><a (click)="sortBy('last')"><img sort-img [sortImg]="imgSortLast" src="../assets/sort.png"></a>Фамилия</th>
+          <th><a (click)="sortBy('first')"><img sort-img [sortImg]="imgSortFirst" src="../assets/sort.png"></a>Имя</th>
+          <th><a (click)="sortBy('middle')"><img sort-img [sortImg]="imgSortMid" src="../assets/sort.png"></a>Отчество</th>
+          <th><a (click)="sortBy('date')"><img sort-img [sortImg]="imgSortDate" src="../assets/sort.png"></a>Дата рождения</th>
+          <th><a (click)="sortBy('score')"><img sort-img [sortImg]="imgSortScore" src="../assets/sort.png"></a>Средний балл</th>
           <th></th>
           <th></th>
         </tr>
       </thead>
       
       <tbody>
-        <tr *ngFor = "let student of studentList ; let i = index" [ngClass] = "{'highlight' : compare(student.averageScore) && turnOn,
+        <tr highlighting *ngFor = "let student of studentList | searchpipe: inS  ; let i = index" [ngClass] = "{'highlight' : compare(student.averageScore) && turnOn,
                                                                 'highSearch':highlightSearch(student.firstName, student.lastName) && search}">
-          <td>{{student.lastName}}</td>
-          <td>{{student.firstName}}</td>
-          <td>{{student.middleName}}</td>
+          <td>{{student.lastName | uppercasepipe}}</td>
+          <td>{{student.firstName | uppercasepipe}}</td>
+          <td>{{student.middleName | uppercasepipe}}</td>
           <td>{{student.birthDate}}</td>
           <td>{{student.averageScore}}</td>
           <td><div id="editButton" (click)="editButton(i)"><img src="../assets/edit.png"></div></td>
@@ -48,39 +48,8 @@
     </div>
   </div>
 
-  
- 
+  <app-filter [ngClass] = "{hidFilt: filterHidden}"></app-filter>
 
-  <div class="filter-container" [ngClass] = "{hidFilt: filterHidden}">
-    <div class="filter-container-popup">
-      <div class="filter-container">
-        <div class="switch-container">
-          <div class="onoffswitch">
-            <input type="checkbox" id="myonoffswitch" tabindex="0" (change)="toggleChecked($event)">
-           <label>Показать всех у кого балл < 3</label> 
-          </div>
-        </div>
-        <div class="filterDate-container">
-          <label>Фильтр по дате </label>
-          <input #dateFrom type="date" class="form-control" [(ngModel)]="fromDate">
-          -
-          <input #dateTo type="date" class="form-control" [(ngModel)]="toDate">
-        </div>
-        <div class="filterScore-container">
-          <label>Фильтр по баллу </label>
-          <input type="number" [(ngModel)] = "fromNum">
-          - 
-          <input type="number" [(ngModel)] = "toNum">
-        </div>
-      </div>
-      <div class="text-right">
-        <button class="dialog-btn btn-cancel" id="cancel" (click)="confirmFilter(false)">Закрыть</button>
-        <button class="dialog-btn btn-primary" id="confirm" (click)="confirmFilter(true)">Применить фильтр</button>
-      </div>
-    </div>
-  </div>
- 
- 
   <app-form 
     [list]="studentList"
     [buttonName]="nameButton" 
@@ -91,7 +60,6 @@
     [ngClass] = "{hiddenForm: hiddenFormFlag}">
   </app-form>
 
- 
 </div>
 
 

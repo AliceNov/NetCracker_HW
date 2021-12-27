@@ -124,9 +124,10 @@ a{
  }
  
  td {
-    color: rgb(61, 61, 61);
+   /* color: rgb(61, 61, 61);*/
     padding: 9px 8px;
     text-align: center;
+   /* background-color: #5594adc0;*/
  }
 
 .theader img{

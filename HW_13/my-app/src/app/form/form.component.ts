@@ -1,15 +1,16 @@
-import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, OnInit } from "@angular/core";
-import { Student } from "../students";
+import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { DataService, Student } from "../data.service";
 import { validateDOB } from "./validatorDOB.validator";
 import { validateFIO } from "./validatorFIO.validator";
 
 @Component({
     selector: "app-form",
     templateUrl: "./form.component.html",
-    styleUrls: ["./form.component.css"]
+    styleUrls: ["./form.component.css"],
+    changeDetection: ChangeDetectionStrategy.OnPush
   })
-export class FormComponent implements OnChanges, OnInit{
+export class FormComponent implements  OnInit, OnChanges{
   @Input() list!: Student[];
   @Input() buttonName!: string;
   @Input() index: number = 0;
@@ -29,10 +30,9 @@ export class FormComponent implements OnChanges, OnInit{
   }, { validator: [validateFIO] })
   });
 
-
   currDate?: Date;
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private dataService: DataService){
 
   }
 
@@ -49,19 +49,17 @@ export class FormComponent implements OnChanges, OnInit{
     }
     if (this.indexF){
       this.edition();
+    } else {
+      this.formAddEdit.reset();
     }
-
   }
-
-
-
 
   edition(): void {
     this.formAddEdit.get("fio")?.get("lastName")?.setValue(this.list[this.index].lastName);
     this.formAddEdit.get("fio")?.get("firstName")?.setValue(this.list[this.index].firstName);
     this.formAddEdit.get("fio")?.get("middleName")?.setValue(this.list[this.index].middleName);
     this.formAddEdit.controls["birthDate"].setValue(this.list[this.index].birthDate);
-    this.formAddEdit.controls["averageScore"].setValue(this.list[this.index].averageScore); 
+    this.formAddEdit.controls["averageScore"].setValue(this.list[this.index].averageScore);
   }
   saveEdit(): void {
     this.list[this.index].lastName = this.formAddEdit.get("fio")?.get("lastName")?.value;
@@ -69,23 +67,20 @@ export class FormComponent implements OnChanges, OnInit{
     this.list[this.index].middleName = this.formAddEdit.get("fio")?.get("middleName")?.value;
     this.list[this.index].birthDate = this.formAddEdit.controls["birthDate"].value;
     this.list[this.index].averageScore = this.formAddEdit.controls["averageScore"].value;
-    this.formAddEdit.reset();
     this.hiddenChange.emit(this.flag);
-    this.listChange.emit(this.list);
+
   }
 
   addRow(): void {
-    this.list.push({
+    const stud: Student = {
       lastName:this.formAddEdit.get("fio")?.get("lastName")?.value,
       firstName: this.formAddEdit.get("fio")?.get("firstName")?.value,
       middleName:this.formAddEdit.get("fio")?.get("middleName")?.value,
       birthDate: String(this.formAddEdit.controls["birthDate"].value),
       averageScore: String(this.formAddEdit.controls["averageScore"].value)
-
-    });
-    this.formAddEdit.reset();
+    };
+    this.dataService.addData(stud);
     this.hiddenChange.emit(this.flag);
-    this.listChange.emit(this.list);
   }
 
   submitButton(): void {
@@ -95,13 +90,15 @@ export class FormComponent implements OnChanges, OnInit{
   _onSubmit(): void {
     if (this.buttonName === "Сохранить" && this.submitFlag) {
       this.saveEdit();
+      this.formAddEdit.reset();
     } else if (this.buttonName === "Добавить" && this.submitFlag) {
       this.addRow();
+      this.formAddEdit.reset();
     }
   }
   closeButton(): void {
+    this.submitFlag = false;
     this.hiddenChange.emit(this.flag);
-    this.formAddEdit.reset();
   }
 
 

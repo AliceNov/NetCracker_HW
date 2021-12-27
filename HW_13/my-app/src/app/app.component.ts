@@ -1,14 +1,17 @@
-import { Component } from "@angular/core";
-import { Student, STUDENTS } from "./students";
+import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { DataService, Student } from "./data.service";
+
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  styleUrls: ["./app.component.css"],
+  providers: [DataService]
 })
-export class AppComponent {
-  public studentList = STUDENTS;
-
+export class AppComponent implements DoCheck{
+  public studentList = this.dataService.getData();
+  clearList: Student [] = this.studentList;
+  it: Student[] = [];
   turnOn: boolean = false;
   nameSearch: string = "";
   search: boolean = false;
@@ -21,21 +24,28 @@ export class AppComponent {
   confirm: boolean = true;
   indexDelete: number = 0;
   filS: [] = [];
-  filterHidden: boolean = true;
+  filterHidden: boolean = this.dataService.getFilterFalg();
   nameButton: string = "";
   hiddenFormFlag: boolean = true;
+
+  differ: KeyValueDiffer<any, any>;
+  constructor(private dataService: DataService, private keyValueDiffers: KeyValueDiffers){
+    this.differ = this.keyValueDiffers.find(this.dataService).create();
+  }
+
+
+  ngDoCheck(): void {
+    if (this.differ.diff(this.dataService) != null ){
+        this.filterHidden = this.dataService.getFilterFalg();
+        this.studentList = this.dataService.getData();
+    }
+  }
 
   formatDate(data: string): Date{
     return new Date(data);
   }
 
-  toggleChecked(event: any): void {
-    if (event.target.checked){
-          this.turnOn = true;
-    } else if (!event.target.checked){
-      this.turnOn = false;
-    }
-  }
+
 
   findStudent(value: string): void {
     for (const name of this.studentList){
@@ -58,7 +68,7 @@ export class AppComponent {
       }
     }
   }
-
+  inS: string = "";
   highlightSearch(firstName: string, lastName: string): boolean {
     const fio1 = lastName + " " + firstName;
     const fio2 = firstName + " " + lastName;
@@ -83,10 +93,7 @@ export class AppComponent {
     return false;
   }
 
-  sortBy(value: string): void{
-      this.sort = value;
-      this.orderBy();
-  }
+
   confirmDialog(flag: boolean): void{
     if (flag) {
       this.deleteRow(this.indexDelete);
@@ -102,37 +109,73 @@ export class AppComponent {
     this.indexDelete = index;
   }
 
-  deleteRow(index: number): void{
-    this.studentList.splice(index, 1);
+  deleteRow(index: number): void {
+    this.dataService.deleteData(index);
   }
 
-  filterByDate(): void{
-    this.studentList = this.studentList.filter((stud) => {
-      const start = new Date(this.fromDate);
-      const end = new Date(this.toDate);
-      if (new Date(stud.birthDate) > start && new Date(stud.birthDate) < end) {
-        return stud;
-      }
-      return false;
-    });
-  }
-
-  filterByScore(): void {
-    if (!this.fromNum || !this.toNum){
-      this.studentList = STUDENTS;
-      return;
-    }
-    this.studentList = this.studentList.filter((stud) => {
-      const start = parseFloat(this.fromNum);
-      const end = parseFloat(this.toNum);
-      if (parseFloat(stud.averageScore) >= start && parseFloat(stud.averageScore) <= end) {
-        return stud;
-      }
-      return false;
-      });
-  }
-
+  sortBy(value: string): void{
+    this.sort = value;
+    this.orderBy();
+}
+  imgSortLast: string = "down";
+  imgSortFirst: string = "down";
+  imgSortMid: string = "down";
+  imgSortDate: string = "down";
+  imgSortScore: string = "down";
   orderBy(): void {
+    if (this.sort === "last"){
+        if (this.imgSortLast === "down") {
+          this.imgSortLast = "up";
+          this.orderByDown();
+        } else if (this.imgSortLast === "up") {
+          this.imgSortLast = "down";
+          this.orderByUp();
+        }
+
+    }
+    if (this.sort === "first"){
+      if (this.imgSortFirst === "down") {
+        this.imgSortFirst = "up";
+        this.orderByDown();
+      } else if (this.imgSortFirst === "up") {
+        this.imgSortFirst = "down";
+        this.orderByUp();
+      }
+
+    }
+    if (this.sort === "middle"){
+      if (this.imgSortMid === "down") {
+        this.imgSortMid = "up";
+        this.orderByDown();
+      } else if (this.imgSortMid === "up") {
+        this.imgSortMid = "down";
+        this.orderByUp();
+      }
+
+    }
+    if (this.sort === "score"){
+      if (this.imgSortScore === "down") {
+        this.imgSortScore = "up";
+        this.orderByDown();
+      } else if (this.imgSortScore === "up") {
+        this.imgSortScore = "down";
+        this.orderByUp();
+      }
+
+    }
+    if (this.sort === "date"){
+      if (this.imgSortDate === "down") {
+        this.imgSortDate = "up";
+        this.orderByDown();
+      } else if (this.imgSortDate === "up") {
+        this.imgSortDate = "down";
+        this.orderByUp();
+      }
+
+    }
+  }
+
+  orderByDown(): void{
     if (this.sort === "last"){
       this.studentList = this.studentList.sort( (stud1, stud2) => {
           if (stud1.lastName.toLowerCase() < stud2.lastName.toLowerCase()) {
@@ -190,28 +233,72 @@ export class AppComponent {
     }
   }
 
-  showFilter(): void {
-    this.filterHidden = false;
-  }
-
-  confirmFilter(flag: boolean): void{
-    if (flag) {
-      this.studentList = STUDENTS;
-      if (this.fromDate && this.toDate){
-        this.filterByDate();
-      }
-      if (this.fromNum && this.toNum) {
-        this.filterByScore();
-      }
-      this.filterHidden = true;
-    } else {
-      this.filterHidden = true;
-      return;
+  orderByUp(): void{
+    if (this.sort === "last"){
+      this.studentList = this.studentList.sort( (stud1, stud2) => {
+          if (stud1.lastName.toLowerCase() > stud2.lastName.toLowerCase()) {
+            return -1;
+          }
+          if (stud1.lastName.toLowerCase() < stud2.lastName.toLowerCase()) {
+              return 1;
+            }
+                return 0;
+        });
+    }
+    if (this.sort === "first"){
+      this.studentList = this.studentList.sort( (stud1, stud2) => {
+            if (stud1.firstName.toLowerCase() > stud2.firstName.toLowerCase()) {
+              return -1;
+            }
+            if (stud1.firstName.toLowerCase() < stud2.firstName.toLowerCase()) {
+                return 1;
+              }
+                  return 0;
+          });
+    }
+    if (this.sort === "middle"){
+      this.studentList = this.studentList.sort( (stud1, stud2) => {
+            if (stud1.middleName.toLowerCase() > stud2.middleName.toLowerCase()) {
+              return -1;
+            }
+            if (stud1.middleName.toLowerCase() < stud2.middleName.toLowerCase()) {
+                return 1;
+              }
+                  return 0;
+          });
+    }
+    if (this.sort === "score"){
+      this.studentList = this.studentList.sort( (stud1, stud2) => {
+            if (parseFloat(stud1.averageScore) > parseFloat(stud2.averageScore)) {
+              return -1;
+            }
+            if (parseFloat(stud1.averageScore) < parseFloat(stud2.averageScore)) {
+                return 1;
+              }
+                  return 0;
+          });
+    }
+    if (this.sort === "date"){
+      this.studentList = this.studentList.sort( (stud1, stud2) => {
+            if (new Date(stud1.birthDate) > new Date(stud2.birthDate)) {
+              return -1;
+            }
+            if (new Date(stud1.birthDate) < new Date(stud2.birthDate)) {
+                return 1;
+              }
+                  return 0;
+          });
     }
   }
 
+  showFilter(): void {
+    this.filterHidden = this.dataService.setFilterFlag(false);
+  }
+
+
+
   cleanFilter(): void{
-    this.studentList = STUDENTS;
+    this.studentList = this.clearList;
     this.fromDate = "";
     this.toDate = "";
     this.fromNum = "";
