@@ -9,7 +9,7 @@ import { validateFIO } from "./form/validatorFIO.validator";
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
-  providers: [{provide: DataService, useClass: DataService}],
+  providers: [{ provide: DataService, useClass: DataService }],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements DoCheck{
@@ -32,9 +32,10 @@ export class AppComponent implements DoCheck{
   nameButton: string = "";
   hiddenFormFlag: boolean = true;
 
-  differ: KeyValueDiffer<string, any> | null;
-  constructor(private dataService: DataService, private keyValueDiffers: KeyValueDiffers, private fb: FormBuilder, private cf: ChangeDetectorRef){
-    this.differ = this.keyValueDiffers.find(this.dataService).create();
+  differ: KeyValueDiffer<string, any>;
+  constructor(private dataService: DataService, private differs: KeyValueDiffers, private fb: FormBuilder, private cf: ChangeDetectorRef){
+    this.differ = this.differs.find(this.dataService).create();
+    console.log(this.differ);
   }
 
   form: FormGroup = this.fb.group({
@@ -50,11 +51,9 @@ export class AppComponent implements DoCheck{
 
 
   ngDoCheck(): void {
-    if (this.differ?.diff(this.dataService) != null ){
+    if (this.differ.diff(this.dataService) !== null ){
         this.filterHidden = this.dataService.getFilterFalg();
-        console.log(this.filterHidden);
         this.studentList = this.dataService.getData();
-        
     }
   }
 

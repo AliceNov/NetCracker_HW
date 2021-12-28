@@ -1,8 +1,6 @@
-import { Component, Input, OnChanges, Output, SimpleChanges, EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, Input, Output,  EventEmitter, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 import { DataService, Student } from "../data.service";
-import { validateDOB } from "./validatorDOB.validator";
-import { validateFIO } from "./validatorFIO.validator";
 
 @Component({
     selector: "app-form",
@@ -34,9 +32,9 @@ export class FormComponent implements  OnInit{
     this.currDate = currentDate;
   }
 
-  get runChangeDetection() {
+  get runChangeDetection(): void {
     return ;
-  } 
+  }
 
   saveEdit(): void {
     this.list[this.index].lastName = this.formAddEdit.get("fio")?.get("lastName")?.value;
@@ -56,6 +54,7 @@ export class FormComponent implements  OnInit{
       averageScore: String(this.formAddEdit.controls["averageScore"].value)
     };
     this.dataService.addData(stud);
+    this.cf.detectChanges();
     this.hiddenChange.emit(this.flag);
   }
 
@@ -66,7 +65,7 @@ export class FormComponent implements  OnInit{
   _onSubmit(): void {
     if (this.buttonName === "Сохранить" && this.submitFlag) {
       this.saveEdit();
-      //this.formAddEdit.reset();
+      // this.formAddEdit.reset();
     } else if (this.buttonName === "Добавить" && this.submitFlag) {
       this.addRow();
       this.formAddEdit.reset();

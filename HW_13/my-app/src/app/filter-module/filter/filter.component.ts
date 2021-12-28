@@ -18,7 +18,7 @@ export class FilterComponent implements OnInit, DoCheck {
   filterHidden!: boolean;
   ggg: string = "";
 
-  differ:  KeyValueDiffer<string, any> | null;
+  differ:  KeyValueDiffer<string, any>;
   constructor(private dataService: DataService, private keyValueDiffers: KeyValueDiffers) {
     this.differ = this.keyValueDiffers.find(this.dataService).create();
   }
@@ -26,6 +26,7 @@ export class FilterComponent implements OnInit, DoCheck {
   ngOnInit(): void {
     this.studentList = this.dataService.getData();
   }
+
 
   ngDoCheck(): void {
     if (this.differ?.diff(this.dataService) != null ){
