@@ -56,12 +56,15 @@
               Обязательное поле ввода 
             </span>
           </div>
+          
           <button class="form-button" (click)="closeButton()">Закрыть</button>
           <button  [ngClass]="{'button-valid': !formAddEdit.valid, 'batton-invalid': formAddEdit.valid }"  class="submit-button" type="submit" [disabled]="!formAddEdit.valid" (click)="submitButton()" >{{buttonName}}</button>
         </div>
         
       </form>
+      {{runChangeDetection}}
+      
     </div> 
   </div>
-
+ 
  

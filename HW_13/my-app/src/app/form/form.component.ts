@@ -10,7 +10,8 @@ import { validateFIO } from "./validatorFIO.validator";
     styleUrls: ["./form.component.css"],
     changeDetection: ChangeDetectionStrategy.OnPush
   })
-export class FormComponent implements  OnInit, OnChanges{
+export class FormComponent implements  OnInit{
+  @Input() formAddEdit!: FormGroup;
   @Input() list!: Student[];
   @Input() buttonName!: string;
   @Input() index: number = 0;
@@ -20,21 +21,11 @@ export class FormComponent implements  OnInit, OnChanges{
   flag: boolean = true;
   submitFlag: boolean = false;
 
-  formAddEdit: FormGroup = this.fb.group({
-    birthDate: ["", [Validators.required, validateDOB]],
-    averageScore: ["", Validators.required],
-    fio: this.fb.group({
-      lastName: ["", Validators.required],
-      firstName: ["", Validators.required],
-      middleName: ["", Validators.required]
-  }, { validator: [validateFIO] })
-  });
-
   currDate?: Date;
 
-  constructor(private fb: FormBuilder, private cf: ChangeDetectorRef, private dataService: DataService){
-
-  }
+  constructor(private fb: FormBuilder,
+              private cf: ChangeDetectorRef,
+              private dataService: DataService){}
 
   ngOnInit (): void{
     this.currDate = new Date();
@@ -43,24 +34,10 @@ export class FormComponent implements  OnInit, OnChanges{
     this.currDate = currentDate;
   }
 
-  ngOnChanges(changes: SimpleChanges): void{
-    if (changes != null){
-      console.log(changes);
-    }
-    if (this.indexF){
-      this.edition();
-    } else {
-      this.formAddEdit.reset();
-    }
-  }
+  get runChangeDetection() {
+    return ;
+  } 
 
-  edition(): void {
-    this.formAddEdit.get("fio")?.get("lastName")?.setValue(this.list[this.index].lastName);
-    this.formAddEdit.get("fio")?.get("firstName")?.setValue(this.list[this.index].firstName);
-    this.formAddEdit.get("fio")?.get("middleName")?.setValue(this.list[this.index].middleName);
-    this.formAddEdit.controls["birthDate"].setValue(this.list[this.index].birthDate);
-    this.formAddEdit.controls["averageScore"].setValue(this.list[this.index].averageScore);
-  }
   saveEdit(): void {
     this.list[this.index].lastName = this.formAddEdit.get("fio")?.get("lastName")?.value;
     this.list[this.index].firstName = this.formAddEdit.get("fio")?.get("firstName")?.value;
@@ -68,7 +45,6 @@ export class FormComponent implements  OnInit, OnChanges{
     this.list[this.index].birthDate = this.formAddEdit.controls["birthDate"].value;
     this.list[this.index].averageScore = this.formAddEdit.controls["averageScore"].value;
     this.hiddenChange.emit(this.flag);
-
   }
 
   addRow(): void {
@@ -90,7 +66,7 @@ export class FormComponent implements  OnInit, OnChanges{
   _onSubmit(): void {
     if (this.buttonName === "Сохранить" && this.submitFlag) {
       this.saveEdit();
-      this.formAddEdit.reset();
+      //this.formAddEdit.reset();
     } else if (this.buttonName === "Добавить" && this.submitFlag) {
       this.addRow();
       this.formAddEdit.reset();
@@ -98,6 +74,7 @@ export class FormComponent implements  OnInit, OnChanges{
   }
   closeButton(): void {
     this.submitFlag = false;
+    this.formAddEdit.reset();
     this.hiddenChange.emit(this.flag);
   }
 

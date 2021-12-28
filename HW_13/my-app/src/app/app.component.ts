@@ -1,12 +1,16 @@
-import { Component, DoCheck, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, DoCheck, KeyValueDiffer, KeyValueDiffers } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DataService, Student } from "./data.service";
+import { validateDOB } from "./form/validatorDOB.validator";
+import { validateFIO } from "./form/validatorFIO.validator";
 
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
-  providers: [DataService]
+  providers: [{provide: DataService, useClass: DataService}],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements DoCheck{
   public studentList = this.dataService.getData();
@@ -28,16 +32,29 @@ export class AppComponent implements DoCheck{
   nameButton: string = "";
   hiddenFormFlag: boolean = true;
 
-  differ: KeyValueDiffer<any, any>;
-  constructor(private dataService: DataService, private keyValueDiffers: KeyValueDiffers){
+  differ: KeyValueDiffer<string, any> | null;
+  constructor(private dataService: DataService, private keyValueDiffers: KeyValueDiffers, private fb: FormBuilder, private cf: ChangeDetectorRef){
     this.differ = this.keyValueDiffers.find(this.dataService).create();
   }
 
+  form: FormGroup = this.fb.group({
+    birthDate: ["", [Validators.required, validateDOB]],
+    averageScore: ["", Validators.required],
+    fio: this.fb.group({
+      lastName: ["", Validators.required],
+      firstName: ["", Validators.required],
+      middleName: ["", Validators.required]
+  }, { validator: [validateFIO] })
+  });
+
+
 
   ngDoCheck(): void {
-    if (this.differ.diff(this.dataService) != null ){
+    if (this.differ?.diff(this.dataService) != null ){
         this.filterHidden = this.dataService.getFilterFalg();
+        console.log(this.filterHidden);
         this.studentList = this.dataService.getData();
+        
     }
   }
 
@@ -313,8 +330,16 @@ export class AppComponent implements DoCheck{
     this.hiddenFormFlag = false;
     this.indexNumber = index;
     this.indexFlag = true;
+
+    this.form.get("fio")?.get("lastName")?.setValue(this.studentList[index].lastName);
+    this.form.get("fio")?.get("firstName")?.setValue(this.studentList[index].firstName);
+    this.form.get("fio")?.get("middleName")?.setValue(this.studentList[index].middleName);
+    this.form.controls["birthDate"].setValue(this.studentList[index].birthDate);
+    this.form.controls["averageScore"].setValue(this.studentList[index].averageScore);
+    this.cf.detectChanges();
   }
   addButton(): void{
+    this.form.reset();
     this.nameButton = "Добавить";
     this.hiddenFormFlag = false;
     this.indexFlag = false;
