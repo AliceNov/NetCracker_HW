@@ -1,0 +1,28 @@
+<div class="filter-container">
+    <div class="filter-container-popup">
+        <div class="filter-container">
+          <div class="switch-container">
+            <div class="onoffswitch">
+              <input type="checkbox" id="myonoffswitch" tabindex="0" (change)="toggleChecked($event)">
+             <label>Показать всех у кого балл < 3</label> 
+            </div>
+          </div>
+          <div class="filterDate-container">
+            <label>Фильтр по дате </label>
+            <input #dateFrom type="date" class="form-control" [(ngModel)]="fromDate">
+            -
+            <input #dateTo type="date" class="form-control" [(ngModel)]="toDate">
+          </div>
+          <div class="filterScore-container">
+            <label>Фильтр по баллу </label>
+            <input type="number" [(ngModel)] = "fromNum">
+            - 
+            <input type="number" [(ngModel)] = "toNum">
+          </div>
+        </div>
+        <div class="text-right">
+          <button class="dialog-btn btn-cancel" id="cancel" (click)="confirmFilter(false)">Закрыть</button>
+          <button class="dialog-btn btn-primary" id="confirm" (click)="confirmFilter(true)">Применить фильтр</button>
+        </div>
+      </div>
+  </div>

@@ -53,7 +53,7 @@ export class AppComponent implements DoCheck{
   ngDoCheck(): void {
     if (this.differ.diff(this.dataService) !== null ){
         this.filterHidden = this.dataService.getFilterFalg();
-        this.studentList = this.dataService.getData();
+        //this.studentList = this.dataService.getData();
     }
   }
 
@@ -310,8 +310,6 @@ export class AppComponent implements DoCheck{
   showFilter(): void {
     this.filterHidden = this.dataService.setFilterFlag(false);
   }
-
-
 
   cleanFilter(): void{
     this.studentList = this.clearList;

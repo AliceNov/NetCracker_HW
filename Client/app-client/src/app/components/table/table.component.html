@@ -1,0 +1,52 @@
+<div class="container">
+    <button class="loc-data" (click)="changeService()">Локальные данные</button>
+    <div class="table-container">
+        <div class="text-field">
+            <input  [(ngModel)] = "inS" type="search" class="text-field__input" >
+            <a class="filter-button" (click)="showFilter()"><img src="assets/filter.png"></a>
+            <button (click)="cleanFilter()" class="clean-filter">Снять фильтры</button>
+            <a routerLink="/students/create" class="filter-button"><img src="../assets/add.png"></a>
+            
+          </div> 
+        <thead>
+            <tr class="theader">
+                <th><a (click)="sortBy('last')"><img sort-img [sortImg]="imgSortLast" src="assets/sortdown.png"></a>Фамилия</th>
+                <th><a (click)="sortBy('first')"><img sort-img [sortImg]="imgSortFirst" src="assets/sortdown.png"></a>Имя</th>
+                <th><a (click)="sortBy('middle')"><img sort-img [sortImg]="imgSortMid" src="assets/sortdown.png"></a>Отчество</th>
+                <th><a (click)="sortBy('date')"><img sort-img [sortImg]="imgSortDate" src="assets/sortdown.png"></a>Дата рождения</th>
+                <th><a (click)="sortBy('score')"><img sort-img [sortImg]="imgSortScore" src="assets/sortdown.png"></a>Средний балл</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr highlighting *ngFor="let student of studentsList | searchpipe: inS ; let id = index" [ngClass] = "{'highlight' : compare(student.averageScore) && turnOn}">
+                <td>{{student.lastName | uppercasepipe}}</td>
+                <td>{{student.firstName | uppercasepipe}}</td>
+                <td>{{student.middleName | uppercasepipe}}</td>
+                <td>{{student.birthDate}}</td>
+                <td>{{student.averageScore}}</td>
+                <td><div routerLink="/students/edit/{{id}}" class="edit-button"><img src="assets/edit.png"></div></td>
+                <td><button class="delete-button" (click)="deleteButton(id)">Удалить</button></td>
+            </tr>
+            
+        </tbody>
+        
+    </div>
+    
+</div>
+{{runChangeDetection}}
+
+
+<app-delete 
+    (list)="change($event)"
+    (hiddenFlag)="changeHidden($event)"
+    [index]="rowIndex"
+    [ngClass]="{hiddenDelete: hiddenDeleteFlag}">
+</app-delete>
+
+<app-filter-pop [ngClass] = "{hidFilt: filterHidden}" 
+                (hidFlag)="filterPopUpHid($event)"
+                (filtList)="filtredList($event)"
+                (togFlag)="togleOn($event)">
+</app-filter-pop>

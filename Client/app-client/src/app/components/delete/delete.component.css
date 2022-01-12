@@ -1,0 +1,56 @@
+.popup {
+  width: 80%;
+  padding: 15px;
+  left: 0;
+  margin-left: 5%;
+  border: 1px solid rgba(54, 54, 54, 0.795);
+  border-radius: 10px;
+  color: rgba(58, 56, 56, 0.74);
+  background: white;
+  position: absolute;
+  top: 15%;
+  z-index: 10001;
+  font-weight: 700;
+  text-align: center;
+}
+#dialog-container {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(68, 67, 67, 0.288);
+  z-index: 10000;
+}
+@media (min-width: 768px) {
+  .popup {
+    width: 66.66666666%;
+    margin-left: 16.666666%;
+  }
+}
+@media (min-width: 992px) {
+  .popup {
+    width: 80%;
+    margin-left: 25%;
+  }
+}
+@media (min-width: 1200px) {
+  .popup {
+    width: 33.33333%;
+    margin-left: 33.33333%;
+  }
+}
+.dialog-btn {
+  background-color: #5ea9c7e0;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #5ea9c7e0;
+  border-radius: 10px;
+  height: 30px;
+  width: 30%;
+}
+.dialog-btn:hover {
+  background-color: #5594ade0;
+  cursor: pointer;
+}

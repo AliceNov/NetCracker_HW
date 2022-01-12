@@ -1,0 +1,110 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.table-container {
+  margin: 0 auto;
+}
+table {
+  font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+  font-size: 14px;
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  margin: 0 auto 20px;
+}
+td {
+  transition: 0.3s linear;
+}
+th {
+  font-size: 14px;
+  font-weight: normal;
+  color: #19191a;
+  border-bottom: 2px solid #6678b1;
+  padding: 10px 8px;
+}
+td {
+  padding: 9px 8px;
+  text-align: center;
+}
+a {
+  cursor: pointer;
+}
+.text-field {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.text-field img {
+  height: 25px;
+}
+.text-field__input {
+  padding: 12px;
+  border-radius: 3px;
+  width: 250px;
+  height: 25px;
+  font-size: 14px;
+  margin: 5px;
+}
+.clean-filter {
+  background-color: #5594ade0;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #5ea9c7e0;
+  border-radius: 5px;
+  height: 25px;
+  width: 125px;
+  margin: 5px;
+}
+.edit-button {
+  cursor: pointer;
+  margin-right: 10px;
+}
+.edit-button img {
+  width: 15px;
+}
+.delete-button {
+  background-color: #5594ade0;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #5ea9c7e0;
+  border-radius: 10px;
+  height: 25px;
+  width: 70px;
+  margin-top: 5px;
+}
+.filter-button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  margin: 5px;
+}
+.hiddenDelete,
+.hiddenForm {
+  display: none;
+}
+.hidFilt {
+  display: none;
+}
+.theader img {
+  width: 15px;
+  height: 15px;
+}
+.loc-data {
+  background-color: #5594ade0;
+  cursor: pointer;
+  color: white;
+  font-weight: 700;
+  border: 1px solid #5ea9c7e0;
+  border-radius: 5px;
+  height: 35px;
+  width: 125px;
+  margin: 5px;
+}
+.highlight {
+  background: rgba(255, 0, 0, 0.336);
+}

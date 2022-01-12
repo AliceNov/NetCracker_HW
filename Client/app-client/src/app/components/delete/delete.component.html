@@ -1,0 +1,10 @@
+<div  id="dialog-container">
+    <div class="popup">
+      <p>Вы действительно хотите удалить ?</p>
+      <div class="text-right">
+        <button class="dialog-btn btn-cancel" id="cancel" (click)="confirmDialog(false)">Нет</button>
+        <button class="dialog-btn btn-primary" id="confirm" (click)="confirmDialog(true)">Да</button>
+      </div>
+    </div>
+    {{runChangeDetection}}
+</div>
