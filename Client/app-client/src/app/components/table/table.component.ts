@@ -1,10 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component,  Inject,  OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { select, Store } from "@ngrx/store";
 import { BehaviorSubject, Observable } from "rxjs";
 import { APP_CONFIG } from "src/app/config.token";
 import { Student } from "src/app/interfaces/data.interface";
 import { LocalService } from "src/app/services/local-service.service";
 import { ServerService } from "src/app/services/server-service.service";
+import { GetStudents } from "src/app/store/actions/student.action";
+import { selectStudentList } from "src/app/store/selectors/student.selector";
+import { IAppState } from "src/app/store/state/app.state";
+import * as StudentsActions from "src/app/store/actions/student.action";
 
 
 @Component({
@@ -28,30 +33,51 @@ export class TableComponent implements OnInit{
   nameButton: string = "";
   inS: string = "";
   sort: string = "";
-
+  stud: Observable<Student[]>;
   subscrition = new BehaviorSubject(this.listSize);
 
   constructor(@Inject(APP_CONFIG) private serverService: LocalService | ServerService,
               private cf: ChangeDetectorRef,
-              private router: Router) {
+              private router: Router,
+              private store: Store<IAppState>) {
     this.students = serverService.findAll();
   }
-
+  
+  
   ngOnInit(): void{
-    this.serverService.findAll().subscribe(
+   /* this.serverService.findAll().subscribe(
       (value) => {
       this.studentsList = value;
      this.cf.detectChanges();
       },
-    );
+    );*/
+    this.store.dispatch(GetStudents());
     this.subscrition.subscribe(
       () => {
-        this.serverService.findAll().subscribe((value) => {
+        /*this.serverService.findAll().subscribe((value) => {
           this.studentsList = value;
           this.cf.detectChanges();
-        });
+        });*/
+        this.store.dispatch(GetStudents());
+        this.store
+        .pipe(select(selectStudentList))
+        .subscribe(
+          (value) => {
+            this.studentsList = value;
+            this.cf.detectChanges();
+          }
+        );
       },
     );
+   this.store
+    .pipe(select(selectStudentList))
+    .subscribe(
+      (value) => {
+        this.studentsList = value;
+        this.cf.detectChanges();
+      }
+    );
+   //this.cf.detectChanges();
   }
 
 

@@ -35,7 +35,7 @@ export class ServerService {
     return this.http.delete<Student[]>("api/students/delete/" + index);
   }
 
-  updateOne(student: Student, id: number): Subscription {
-    return this.http.post<Student[]>("api/students/save/" + id, student).subscribe();
+  updateOne(student: Student, id: number) {
+    return this.http.post<Student[]>("api/students/save/" + id, student);
   }
 }

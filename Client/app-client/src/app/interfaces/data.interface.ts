@@ -4,5 +4,4 @@ export interface Student {
     middleName: string;
     birthDate: string;
     averageScore: string;
-
 }

@@ -1,9 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { select, Store, UPDATE } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { Student } from "src/app/interfaces/data.interface";
 import { ServerService } from "src/app/services/server-service.service";
+import { GetStudent, GetStudentSuccess, UpdateStudent } from "src/app/store/actions/student.action";
+import { selectSelectedStudent, selectUpdateStudent } from "src/app/store/selectors/student.selector";
+import { IAppState } from "src/app/store/state/app.state";
 import { validateDOB } from "src/app/validators/validatorDOB.validator";
 import { validateFIO } from "src/app/validators/validatorFIO.validator";
 
@@ -41,7 +45,7 @@ export class FormComponent implements OnInit, OnDestroy {
               private cf: ChangeDetectorRef,
               private serverService: ServerService,
               private router: ActivatedRoute,
-               ) {
+              private store: Store<IAppState> ) {
 
 
     this.formAddEdit =  this.fb.group({
@@ -77,7 +81,7 @@ export class FormComponent implements OnInit, OnDestroy {
       },
     );
 
-
+     
   }
 
   get runChangeDetection(): void {
@@ -85,13 +89,22 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   edit(index: number): void {
-    this.serverService.findOne(index).subscribe(
+   /* this.serverService.findOne(index).subscribe(
       (st: Student) => {
-this.student = st;
+        this.student = st;
         this.editSet(st);
-      this.cf.detectChanges();
-},
-     );
+        this.cf.detectChanges();
+      },
+     );*/
+    
+     this.store.dispatch(GetStudent({id: index}));
+     this.store.pipe(select(selectSelectedStudent)).subscribe(
+       (value) => {
+         this.student = value;
+         this.editSet(value);
+         this.cf.detectChanges();
+       }
+     )
   }
 
   editSet(student: Student): void {
@@ -113,7 +126,8 @@ this.student = st;
       birthDate: String(this.formAddEdit.controls["birthDate"].value),
       averageScore: String(this.formAddEdit.controls["averageScore"].value)
     };
-    this.serverService.updateOne(stud, this.id);
+    //this.serverService.updateOne(stud, this.id);
+    this.store.dispatch(UpdateStudent({student: stud, id: this.id}));
    // this.cf.detectChanges();
 
   }

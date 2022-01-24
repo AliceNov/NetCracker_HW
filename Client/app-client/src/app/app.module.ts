@@ -20,6 +20,14 @@ import { FilterModule } from "./filter/filter.module";
 import { EditGuard } from "./edit.guard";
 import { NotFoundCompComponent } from "./components/not-found-comp/not-found-comp.component";
 import { serverLocalProvider } from "./config.token";
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { appReducers} from "./store/reducers/app.reducers";
+import { StudentEffects } from "./store/effects/student.effects";
+import { log } from "./store/reducers/logs.meta-reducer";
 
 
 @NgModule({
@@ -42,6 +50,11 @@ import { serverLocalProvider } from "./config.token";
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    StoreModule.forRoot(appReducers,
+    {metaReducers: [log]}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([StudentEffects]),
+    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
   ],
   providers: [
     EditGuard,
